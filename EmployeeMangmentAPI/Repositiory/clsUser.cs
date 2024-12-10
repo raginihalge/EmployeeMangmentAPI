@@ -18,6 +18,7 @@ namespace EmployeeMangmentAPI.Repositiory
 
         public void CheckLogin(UserModel user)
         {
+            //Add New Method
             SqlCommand cmd = new SqlCommand("GetSP");
             cmd.Parameters.AddWithValue("username", user.Username);
             cmd.Parameters.AddWithValue("username", user.Username);
