@@ -27,21 +27,21 @@ namespace EmployeeMangmentAPI.Controllers
             // Example: Validate user credentials (implement your own logic here)
             if (login.Username == "testuser" && login.Password == "password")
             {
-                _user.CheckLogin(login);
+                //_user.CheckLogin(login);
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new[]
                     {
-                new Claim(ClaimTypes.Name, login.Username),
-                new Claim(ClaimTypes.Role, "User") // Add roles/claims as needed
-            }),
-                    Expires = DateTime.UtcNow.AddHours(1),
+                    new Claim(ClaimTypes.Name, login.Username),
+                    new Claim(ClaimTypes.Role, "User") // Add roles/claims as needed
+                    }),
+                    Expires = DateTime.UtcNow.AddMinutes(5),
                     Issuer = _configuration["Jwt:Issuer"],
                     Audience = _configuration["Jwt:Audience"],
                     SigningCredentials = new SigningCredentials(
-                        new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
 
                 var token = tokenHandler.CreateToken(tokenDescriptor);

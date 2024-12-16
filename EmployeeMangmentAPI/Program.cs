@@ -6,6 +6,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<IUser, clsUser>();
+builder.Services.AddTransient<ISingUp, clsSingUp>();
 builder.Services.AddTransient<IDAL, clsDAL>();
 builder.Services.AddTransient<IDALCon, clsDALCon>();
 // Add CORS services
@@ -59,6 +60,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
     });
+
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 var app = builder.Build();
@@ -70,6 +72,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 // Use the CORS policy
 app.UseCors("AllowAll");
+// Register the middleware
+app.UseMiddleware<TokenValidationMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
