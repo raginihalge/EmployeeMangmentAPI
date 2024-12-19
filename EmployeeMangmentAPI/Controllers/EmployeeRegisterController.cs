@@ -25,8 +25,8 @@ namespace EmployeeMangmentAPI.Controllers
         [HttpPost("EmployeeSignUp")]
         public IActionResult EmployeeSignUp([FromBody] SingUpModel signUp)
         {
-            _singUp.InsertSingUp(signUp);
-            return Ok(signUp);
+            int ID=_singUp.InsertSingUp(signUp);
+            return Ok(new {Message=$"Employee Created Succesfully {ID}"});
         }
 
     }

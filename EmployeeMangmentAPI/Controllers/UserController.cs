@@ -1,4 +1,5 @@
-﻿using EmployeeMangmentAPI.Model;
+﻿using EmployeeMangmentAPI.Helper;
+using EmployeeMangmentAPI.Model;
 using EmployeeMangmentAPI.Repositiory;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,19 +16,27 @@ namespace EmployeeMangmentAPI.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IUser _user;
+        private readonly IEncryptionHelper _Encryption;
 
-        public UserController(IConfiguration configuration,IUser user)
+        public UserController(IConfiguration configuration,IUser user,IEncryptionHelper encryption)
         {
             _configuration = configuration;
             _user = user;
+            _Encryption = encryption;
         }
+
+      
+
         [HttpPost("Login")]
         public IActionResult UserAunthontication([FromBody] UserModel login)
         {
             // Example: Validate user credentials (implement your own logic here)
-            if (login.Username == "testuser" && login.Password == "password")
+            if (login.Username != "" && login.Password != "")
             {
+
                 //_user.CheckLogin(login);
+                //login.Username=_Encryption.Encrypt(login.Username);
+                string name=_Encryption.Decrypt(login.Username);
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
                 var tokenDescriptor = new SecurityTokenDescriptor

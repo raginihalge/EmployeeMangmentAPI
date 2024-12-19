@@ -1,4 +1,5 @@
 using DAL;
+using EmployeeMangmentAPI.Helper;
 using EmployeeMangmentAPI.Repositiory;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -6,6 +7,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<IUser, clsUser>();
+builder.Services.AddTransient<IEncryptionHelper, EncryptionHelper>();
 builder.Services.AddTransient<ISingUp, clsSingUp>();
 builder.Services.AddTransient<IDAL, clsDAL>();
 builder.Services.AddTransient<IDALCon, clsDALCon>();
