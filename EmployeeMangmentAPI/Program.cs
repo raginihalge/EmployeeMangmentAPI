@@ -1,8 +1,10 @@
 using DAL;
 using EmployeeMangmentAPI.Helper;
+using EmployeeMangmentAPI.Middleware;
 using EmployeeMangmentAPI.Repositiory;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,18 @@ builder.Services.AddTransient<IEncryptionHelper, EncryptionHelper>();
 builder.Services.AddTransient<ISingUp, clsSingUp>();
 builder.Services.AddTransient<IDAL, clsDAL>();
 builder.Services.AddTransient<IDALCon, clsDALCon>();
+
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.File(
+        path: "Logs/log-.txt",
+        rollingInterval: RollingInterval.Day, // Creates a new log file every day
+        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
+    )
+    .CreateLogger();
+
+builder.Host.UseSerilog(); // Use Serilog as the logging provider
+
 // Add CORS services
 builder.Services.AddCors(options =>
 {
@@ -74,7 +88,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 // Use the CORS policy
 app.UseCors("AllowAll");
-// Register the middleware
+// Register the middleware for global exception handler
+app.UseMiddleware<ExceptionMiddleware>();
+// Register the middleware for Token Validation
 app.UseMiddleware<TokenValidationMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();

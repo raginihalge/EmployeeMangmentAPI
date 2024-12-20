@@ -22,8 +22,8 @@ public class TokenValidationMiddleware
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            try
-            {
+            //try
+            //{
                 if (tokenHandler.CanReadToken(token))
                 {
                     var jwtToken = tokenHandler.ReadJwtToken(token);
@@ -43,14 +43,14 @@ public class TokenValidationMiddleware
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                // Handle invalid token
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                await context.Response.WriteAsync($"Invalid token: {ex.Message}");
-                return;
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    // Handle invalid token
+            //    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            //    await context.Response.WriteAsync($"Invalid token: {ex.Message}");
+            //    return;
+            //}
         }
 
         // Call the next middleware in the pipeline
