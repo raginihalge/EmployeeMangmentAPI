@@ -12,11 +12,13 @@ namespace EmployeeMangmentAPI.Controllers
     public class EmployeeRegisterController : ControllerBase
     {
         private readonly ISingUp _singUp;
+        private readonly IEmployeeRegistration employeeRegistration;
 
         public EmployeeRegisterController(ISingUp singUp)
         {
             _singUp = singUp;
         }
+
         [HttpPost("EmployeeDetails")]
         public IActionResult GetEmployeeDetails()
         {

@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<IUser, clsUser>();
 builder.Services.AddTransient<IEncryptionHelper, EncryptionHelper>();
 builder.Services.AddTransient<ISingUp, clsSingUp>();
+builder.Services.AddTransient<IEmployeeRegistration, clsEmployeeRegistration>();
 builder.Services.AddTransient<IDAL, clsDAL>();
 builder.Services.AddTransient<IDALCon, clsDALCon>();
 

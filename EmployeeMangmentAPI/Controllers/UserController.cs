@@ -36,7 +36,7 @@ namespace EmployeeMangmentAPI.Controllers
 
                 //_user.CheckLogin(login);
                 //login.Username=_Encryption.Encrypt(login.Username);
-                string name=_Encryption.Decrypt(login.Username);
+               // string name=_Encryption.Decrypt(login.Username);
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
                 var tokenDescriptor = new SecurityTokenDescriptor
